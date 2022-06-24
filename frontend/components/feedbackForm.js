@@ -1,11 +1,13 @@
 import React ,{useState , useEffect, useRef} from "react";
 import {Card, Button , Form} from 'react-bootstrap';
+import { useHistory } from "react-router";
 
 export default function FeedbackForm(prop) {
     const [id , setId] = useState();
     const [name , setName] = useState();
     const feedbackMessage = useRef("");
     const [buttonState, setButtonState] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         let url = new URL(window.location.href);
@@ -17,22 +19,20 @@ export default function FeedbackForm(prop) {
     const submitBtn = async() => {
         setButtonState(true);
         let isFeedbackMessage = feedbackMessage.current.value.match("[A-Za-z0-9]");
-
         if (isFeedbackMessage === null){
             if (isFeedbackMessage === null){
                 alert("Please enter Feedback Message....!!!!")
             }
         }else {
-
             //Write Code to Save feedback on BlockChain
-            console.log('feedback', feedbackMessage.current.value)
             await window.contract.addFeedback({
                 id: id.toString(),
                 message:feedbackMessage.current.value,
                 name:name.toString(),
+                user: window.accountId.toString(),
               });
-              alert("Feedback added successfully");
-
+              alert("Feedback added successfully")
+            history.goBack();
         }
         feedbackMessage.current.value = null;
         setButtonState(false);
