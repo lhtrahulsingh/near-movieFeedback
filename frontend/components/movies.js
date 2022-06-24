@@ -23,9 +23,6 @@ export default function Movies(prop) {
                     <div
                     style={{ marginTop: '10px'}}
                     >Release Date : {item.releaseDate}</div>
-                    <div
-                    style={{ marginTop: '10px'}}
-                    >Rating : {item.voteAverage}</div>
                 </Card.Body>
             </Card>
                 )
