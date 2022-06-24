@@ -1,18 +1,15 @@
 import React , {useState ,useEffect} from "react";
 import {Card} from 'react-bootstrap';
+import user from "../assets/img/user";
 
 export default function AllFeedback(prop) {
-    const [feedback, setFeedback] = useState(
-        // ['hello rahul .......', 'rahul bhai ko hello.!!!!!!']
-        []
-        );
+    const [feedback, setFeedback] = useState([]);
 
     useEffect(() => {
         const getFeedback = async () => {
             let allFeedback = await window.contract.getFeedback({
-              user: window.accountId,
+              users: user,
             });
-            console.log('rahul singh',window.accountId)
             setFeedback(allFeedback);
           };
           getFeedback();
@@ -21,19 +18,20 @@ export default function AllFeedback(prop) {
     return (
         <div style={{marginTop : '10px'}}>
             <Card>
-                <Card.Title>Your All Feedback</Card.Title>
+                <Card.Title style={{marginTop : '5px', marginLeft : '5px'}}>All Movie's Feedback</Card.Title>
                 <Card.Body>
-
-                
             {feedback.map((data , index)=>{
                 let item = (data.toString()).split('/*/');
                 return (
                     <Card style={{marginTop : '10px', backgroundColor : '#e6e6e6'}}>
                         <Card.Title
                         style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '15px'}}>
-                            Feedback #{index+1} on movie {item[2]}
+                            {item[2]}
                         </Card.Title>
-                        <Card.Body>{item[0]}</Card.Body>
+                        <Card.Body>
+                            <div style={{fontSize: '15px'}}>{item[3]} feedback is : </div>
+                            <div style={{fontSize: '25px'}}>{item[0]}</div>
+                            </Card.Body>
                     </Card>
                 )
             })}
