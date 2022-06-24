@@ -1,11 +1,9 @@
 import React , {useState ,useEffect} from "react";
 import {Card} from 'react-bootstrap';
+import user from "../assets/img/user";
 
 export default function FeedbackShow(prop) {
-    const [feedback, setFeedback] = useState(
-        ['hello rahul .......', 'rahul bhai ko hello.!!!!!!']
-        // []
-        );
+    const [feedback, setFeedback] = useState([]);
     const [id , setId] = useState();
     const [name , setName] = useState();
 
@@ -17,7 +15,7 @@ export default function FeedbackShow(prop) {
 
         const getFeedback = async () => {
             let allFeedback = await window.contract.getFeedback({
-              user: window.accountId,
+              users: user,
             });
             setFeedback(allFeedback);
           };
@@ -27,7 +25,7 @@ export default function FeedbackShow(prop) {
     return (
         <div style={{marginTop : '10px'}}>
             <Card>
-                <Card.Title>Your Feedback on {name}</Card.Title>
+                <Card.Title style={{marginTop: '5px',marginLeft: '5px'}}>Feedback on {name}</Card.Title>
                 <Card.Body>
 
                 
@@ -41,7 +39,10 @@ export default function FeedbackShow(prop) {
                         style={{marginLeft: 'auto', marginRight: 'auto', marginTop: '15px'}}>
                             Feedback
                         </Card.Title>
-                        <Card.Body>{item[0]}</Card.Body>
+                        <Card.Body>
+                            <div style={{fontSize: '15px'}}>{item[3]} feedback is : </div>
+                            <div style={{fontSize: '25px'}}>{item[0]}</div>
+                        </Card.Body>
                     </Card>
                 )}
                 else{
