@@ -8,6 +8,7 @@ const root = createRoot(container) // createRoot(container!) if you use TypeScri
 
 window.nearInitPromise = initContract()
   .then(() => {
+  
     <App />
     root.render(<App tab="home" />)
   })
