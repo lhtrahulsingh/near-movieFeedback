@@ -1,6 +1,5 @@
 import 'regenerator-runtime/runtime'
 import React from 'react'
-
 import './assets/css/global.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container , Row , Nav, Navbar , Card , NavDropdown} from 'react-bootstrap';
@@ -12,16 +11,11 @@ import FeedbackList from './components/feedbackList';
 import FeedbackForm from './components/feedbackForm';
 import FeedbackShow from './components/feedback';
 import AllFeedback from './components/allFeedback';
-
-import {login, logout, get_greeting, set_greeting} from './assets/js/near/utils'
-import getConfig from './assets/js/near/config'
-import { async } from 'regenerator-runtime';
+import YourFeedback from './components/yourFeedback';
+import {login, logout} from './assets/js/near/utils'
 
 
 export default function App() {
-  // const loginFun = async() =>{
-  //   login
-  // }
   return (
     <>
     <div>
@@ -35,7 +29,8 @@ export default function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
             <Nav.Link href='/movies'>Movies</Nav.Link>
-            <Nav.Link href='/all-feedback'>All Feedbacks</Nav.Link>
+            <Nav.Link href='/all-feedback'>All Users Feedbacks</Nav.Link>
+            <Nav.Link href='/your-feedback'>Your All Feedbacks</Nav.Link>
             <Nav.Link href="#home"
             onClick={window.walletConnection.isSignedIn() ? logout : login}
             >{window.walletConnection.isSignedIn() ? window.accountId : "Log in"}</Nav.Link>
@@ -52,14 +47,14 @@ export default function App() {
           <Route exact path='/view-feedback'><FeedbackShow /></Route>
           <Route exact path='/movies'><Movies /></Route>
           <Route exact path='/all-feedback'><AllFeedback /></Route>
+          <Route exact path='/your-feedback'><YourFeedback /></Route>
         </Switch>
-        {/* <div>hello</div> */}
       </Row>
       : 
       <Row>
-        <Card>
-          <Card.Body>
-            <Card.Title>Pleace log in</Card.Title>
+        <Card style={{marginTop: '15px', width :'100%' , height :'200px'}}>
+          <Card.Body style={{marginLeft : 'auto' , marginRight : 'auto',marginTop:'70px'}}>
+            <Card.Title>Log in</Card.Title>
           </Card.Body>
         </Card>
       </Row>
