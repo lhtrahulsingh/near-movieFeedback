@@ -7,6 +7,7 @@ export default function FeedbackList(prop) {
     const [name , setName] = useState();
     const [addUrl , setAddUrl] = useState();
     const [viewUrl , setViewUrl] = useState();
+    const [show , setShow] = useState(true);
     useEffect(() => {
         let url = new URL(window.location.href);
         let searchParams = new URLSearchParams(url.search);
@@ -15,14 +16,25 @@ export default function FeedbackList(prop) {
         let urlView = '/view-feedback?id=' + searchParams.get("id").toString() + '&name=' + searchParams.get("name").toString();
         setAddUrl(urlAdd);
         setViewUrl(urlView); 
-        console.log("rahul", id)
+
+        const getFeedback = async () => {
+            let allFeedback = await window.contract.getUserFeedback({
+              user: window.accountId.toString(),
+            });
+            allFeedback.map((data) => {
+                let item = (data.toString()).split('/*/')
+                if(item[1] === searchParams.get("id").toString()){   
+                    setShow(false);
+                }
+            })
+        }
+        getFeedback();
     },[])
 
     return(
         <div>
             {data.map((item,index) => {
                 return(<>
-                {console.log("rahul 2",id)}
                 {item.id.toString() === id ?
                     <Card style={{marginTop: '10px', backgroundColor : '#e6e6e6'}}>
                     <Card.Title 
@@ -39,9 +51,6 @@ export default function FeedbackList(prop) {
                         <div
                         style={{ marginTop: '10px'}}
                         >Release Date : {item.releaseDate}</div>
-                        <div
-                        style={{ marginTop: '10px'}}
-                        >Rating : {item.voteAverage}</div>
                     </Card.Body>
                 </Card>
                     :""}
@@ -49,7 +58,9 @@ export default function FeedbackList(prop) {
             })}
             <Card style={{marginTop : '10px'}}>
                 <div style={{display: 'flex', width: '100%'}}>
-                <div><Nav.Link href={addUrl}>Add Feedback</Nav.Link></div>
+                <div>
+                {show ?<Nav.Link href={addUrl}>Add Feedback</Nav.Link> : <p style={{marginTop: '10px', marginLeft: '5px'}}>You give your Feedback</p> }    
+                </div>
                 <div><Nav.Link href={viewUrl}>Show Feedback</Nav.Link></div>
                 </div>
             </Card>
